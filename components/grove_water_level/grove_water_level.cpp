@@ -95,12 +95,15 @@ namespace esphome::grove_water_level
             return;
         }
 
-        ESP_LOGD(TAG, "Successfully read bytes from devices: %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-                 this->read_data[0], this->read_data[1], this->read_data[2], this->read_data[3],
-                 this->read_data[4], this->read_data[5], this->read_data[6], this->read_data[7],
-                 this->read_data[8], this->read_data[9], this->read_data[10], this->read_data[11],
-                 this->read_data[12], this->read_data[13], this->read_data[14], this->read_data[15],
-                 this->read_data[16], this->read_data[17], this->read_data[18], this->read_data[19]);
+        ESP_LOGD(TAG,
+                 "Sensing pads: %d %d %d %d %d %d %d",
+                 this->read_data[13],
+                 this->read_data[14],
+                 this->read_data[15],
+                 this->read_data[16],
+                 this->read_data[17],
+                 this->read_data[18],
+                 this->read_data[19]);
 
         this->read_status = ret;
     }
