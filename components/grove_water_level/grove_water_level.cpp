@@ -43,19 +43,17 @@ namespace esphome::grove_water_level
         if (this->level_sensor_ != nullptr)
         {
             float level = 0.0;
-            for (int i = 0; i < sizeof(this->read_data); i++)
+        
+            // Only use the final 7 sensing pads.
+            // Each pad represents 5 mm of water level.
+            for (int i = 13; i <= 19; i++)
             {
-                // Level sensor-specific logic.
-                // If the capacitor being currently evaluated has a higher capacitance
-                // than the prior one, it's probably a water droplet so we will ignore
-                // this and all further capacitors.
-                if (i > 0 && this->read_data[i] > this->read_data[i - 1])
-                    break;
-                // Capacitors don't always peg the int value they resolve to.
-                // Thus, the contribution of the capacitor to the level is
-                // capped to the capacitor max value.
-                level = level + (GROVE_WATER_LEVEL_SENSOR_LENGTH / sizeof(this->read_data)) / this->capacitor_max_value_ * std::min(this->read_data[i], this->capacitor_max_value_);
+                if (this->read_data[i] >= this->detection_threshold_)
+                {
+                    level = (i - 12) * 5.0;
+                }
             }
+        
             ESP_LOGD(TAG, "Got level=%.1f mm", level);
             this->level_sensor_->publish_state(level);
         }
