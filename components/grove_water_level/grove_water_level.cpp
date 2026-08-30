@@ -48,7 +48,7 @@ namespace esphome::grove_water_level
             // Each pad represents 5 mm of water level.
             for (int i = 13; i <= 19; i++)
             {
-                if (this->read_data[i] >= this->detection_threshold_)
+                if (this->read_data[i] >= 240)
                 {
                     level = (i - 12) * 5.0;
                 }
